@@ -1,0 +1,494 @@
+
+build/output.elf:     file format elf32-littlearm
+
+
+Disassembly of section .init:
+
+00008000 <_start>:
+    8000:	ea00567c 	b	1d9f8 <main>
+
+Disassembly of section .text:
+
+0001d8ec <EnableJTAG>:
+   1d8ec:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   1d8f0:	e59f0064 	ldr	r0, [pc, #100]	; 1d95c <dowaitloop+0xc>
+   1d8f4:	e0211001 	eor	r1, r1, r1
+   1d8f8:	e5801000 	str	r1, [r0]
+   1d8fc:	eb000012 	bl	1d94c <dowait>
+   1d900:	e59f0058 	ldr	r0, [pc, #88]	; 1d960 <dowaitloop+0x10>
+   1d904:	e59f1058 	ldr	r1, [pc, #88]	; 1d964 <dowaitloop+0x14>
+   1d908:	e5801000 	str	r1, [r0]
+   1d90c:	eb00000e 	bl	1d94c <dowait>
+   1d910:	e0211001 	eor	r1, r1, r1
+   1d914:	e5801000 	str	r1, [r0]
+   1d918:	e59f0048 	ldr	r0, [pc, #72]	; 1d968 <dowaitloop+0x18>
+   1d91c:	e5901000 	ldr	r1, [r0]
+   1d920:	e3c11a07 	bic	r1, r1, #28672	; 0x7000
+   1d924:	e3811a02 	orr	r1, r1, #8192	; 0x2000
+   1d928:	e5801000 	str	r1, [r0]
+   1d92c:	e59f0038 	ldr	r0, [pc, #56]	; 1d96c <dowaitloop+0x1c>
+   1d930:	e5901000 	ldr	r1, [r0]
+   1d934:	e59f2034 	ldr	r2, [pc, #52]	; 1d970 <dowaitloop+0x20>
+   1d938:	e1c11002 	bic	r1, r1, r2
+   1d93c:	e59f2030 	ldr	r2, [pc, #48]	; 1d974 <dowaitloop+0x24>
+   1d940:	e1811002 	orr	r1, r1, r2
+   1d944:	e5801000 	str	r1, [r0]
+   1d948:	e49df004 	pop	{pc}		; (ldr pc, [sp], #4)
+
+0001d94c <dowait>:
+   1d94c:	e3a02f4b 	mov	r2, #300	; 0x12c
+
+0001d950 <dowaitloop>:
+   1d950:	e2522001 	subs	r2, r2, #1
+   1d954:	1afffffd 	bne	1d950 <dowaitloop>
+   1d958:	e12fff1e 	bx	lr
+   1d95c:	3f200094 	.word	0x3f200094
+   1d960:	3f200098 	.word	0x3f200098
+   1d964:	0bc00010 	.word	0x0bc00010
+   1d968:	3f200000 	.word	0x3f200000
+   1d96c:	3f200008 	.word	0x3f200008
+   1d970:	00e3ffc0 	.word	0x00e3ffc0
+   1d974:	0061b6c0 	.word	0x0061b6c0
+
+0001d978 <InitFrameBuffer>:
+   1d978:	e59f2068 	ldr	r2, [pc, #104]	; 1d9e8 <pointerWaitLoop$+0x1c>
+   1d97c:	e59f3068 	ldr	r3, [pc, #104]	; 1d9ec <pointerWaitLoop$+0x20>
+
+0001d980 <mBoxFullLoop$>:
+   1d980:	e5920018 	ldr	r0, [r2, #24]
+   1d984:	e3100102 	tst	r0, #-2147483648	; 0x80000000
+   1d988:	1afffffc 	bne	1d980 <mBoxFullLoop$>
+   1d98c:	e2830101 	add	r0, r3, #1073741824	; 0x40000000
+   1d990:	e3800008 	orr	r0, r0, #8
+   1d994:	e5820020 	str	r0, [r2, #32]
+
+0001d998 <mBoxEmptyLoop$>:
+   1d998:	e5920018 	ldr	r0, [r2, #24]
+   1d99c:	e3100101 	tst	r0, #1073741824	; 0x40000000
+   1d9a0:	1afffffc 	bne	1d998 <mBoxEmptyLoop$>
+   1d9a4:	e5920000 	ldr	r0, [r2]
+   1d9a8:	e200100f 	and	r1, r0, #15
+   1d9ac:	e3310008 	teq	r1, #8
+   1d9b0:	1afffff8 	bne	1d998 <mBoxEmptyLoop$>
+   1d9b4:	e59f0030 	ldr	r0, [pc, #48]	; 1d9ec <pointerWaitLoop$+0x20>
+   1d9b8:	e5901004 	ldr	r1, [r0, #4]
+   1d9bc:	e3310102 	teq	r1, #-2147483648	; 0x80000000
+   1d9c0:	0a000001 	beq	1d9cc <pointerWaitLoop$>
+   1d9c4:	13a00000 	movne	r0, #0
+   1d9c8:	112fff1e 	bxne	lr
+
+0001d9cc <pointerWaitLoop$>:
+   1d9cc:	e59f001c 	ldr	r0, [pc, #28]	; 1d9f0 <pointerWaitLoop$+0x24>
+   1d9d0:	e5900000 	ldr	r0, [r0]
+   1d9d4:	e3300000 	teq	r0, #0
+   1d9d8:	0afffffb 	beq	1d9cc <pointerWaitLoop$>
+   1d9dc:	e59f3010 	ldr	r3, [pc, #16]	; 1d9f4 <pointerWaitLoop$+0x28>
+   1d9e0:	e5830000 	str	r0, [r3]
+   1d9e4:	e12fff1e 	bx	lr
+   1d9e8:	3f00b880 	.word	0x3f00b880
+   1d9ec:	0001d760 	.word	0x0001d760
+   1d9f0:	0001d7ac 	.word	0x0001d7ac
+   1d9f4:	0001d7c0 	.word	0x0001d7c0
+
+0001d9f8 <main>:
+   1d9f8:	e3a0d902 	mov	sp, #32768	; 0x8000
+   1d9fc:	ebffffba 	bl	1d8ec <EnableJTAG>
+   1da00:	ebffffdc 	bl	1d978 <InitFrameBuffer>
+   1da04:	eb0000d4 	bl	1dd5c <InitGPIOSNES>
+   1da08:	eb0000b5 	bl	1dce4 <clearScreen>
+
+0001da0c <game_loop>:
+   1da0c:	eb000001 	bl	1da18 <update>
+   1da10:	eafffffd 	b	1da0c <game_loop>
+
+0001da14 <haltLoop$>:
+   1da14:	eafffffe 	b	1da14 <haltLoop$>
+
+0001da18 <update>:
+   1da18:	e92d4010 	push	{r4, lr}
+   1da1c:	eb0000ee 	bl	1dddc <ReadSNES>
+   1da20:	e59f1310 	ldr	r1, [pc, #784]	; 1dd38 <test1+0x8>
+   1da24:	e0214000 	eor	r4, r1, r0
+   1da28:	e3a05000 	mov	r5, #0
+
+0001da2c <break2>:
+   1da2c:	e59f2308 	ldr	r2, [pc, #776]	; 1dd3c <test1+0xc>
+   1da30:	e5929000 	ldr	r9, [r2]
+
+0001da34 <break1>:
+   1da34:	e3590000 	cmp	r9, #0
+   1da38:	0a000016 	beq	1da98 <check_A>
+   1da3c:	ca000000 	bgt	1da44 <jumping>
+   1da40:	ba000009 	blt	1da6c <falling>
+
+0001da44 <jumping>:
+   1da44:	e59f02f4 	ldr	r0, [pc, #756]	; 1dd40 <test1+0x10>
+   1da48:	e5901000 	ldr	r1, [r0]
+   1da4c:	e3510064 	cmp	r1, #100	; 0x64
+   1da50:	c3e01000 	mvngt	r1, #0
+   1da54:	c5821000 	strgt	r1, [r2]
+   1da58:	ca000012 	bgt	1daa8 <move_left_right>
+   1da5c:	e3e05000 	mvn	r5, #0
+   1da60:	e2811001 	add	r1, r1, #1
+   1da64:	e5801000 	str	r1, [r0]
+   1da68:	ea00000e 	b	1daa8 <move_left_right>
+
+0001da6c <falling>:
+   1da6c:	e59f02cc 	ldr	r0, [pc, #716]	; 1dd40 <test1+0x10>
+   1da70:	e5901000 	ldr	r1, [r0]
+   1da74:	e3510000 	cmp	r1, #0
+   1da78:	d3a01000 	movle	r1, #0
+   1da7c:	d5821000 	strle	r1, [r2]
+   1da80:	da000008 	ble	1daa8 <move_left_right>
+   1da84:	e3a05001 	mov	r5, #1
+   1da88:	e2411001 	sub	r1, r1, #1
+   1da8c:	e5801000 	str	r1, [r0]
+   1da90:	e5801000 	str	r1, [r0]
+   1da94:	ea000003 	b	1daa8 <move_left_right>
+
+0001da98 <check_A>:
+   1da98:	e3140c01 	tst	r4, #256	; 0x100
+   1da9c:	0a000001 	beq	1daa8 <move_left_right>
+   1daa0:	e3a00001 	mov	r0, #1
+   1daa4:	e5c20000 	strb	r0, [r2]
+
+0001daa8 <move_left_right>:
+   1daa8:	e1a01005 	mov	r1, r5
+   1daac:	e3a00000 	mov	r0, #0
+   1dab0:	e3140080 	tst	r4, #128	; 0x80
+   1dab4:	13a00001 	movne	r0, #1
+   1dab8:	e3140040 	tst	r4, #64	; 0x40
+   1dabc:	13e00000 	mvnne	r0, #0
+   1dac0:	eb000001 	bl	1dacc <moveMario>
+
+0001dac4 <update_end>:
+   1dac4:	e8bd4010 	pop	{r4, lr}
+   1dac8:	e12fff1e 	bx	lr
+
+0001dacc <moveMario>:
+   1dacc:	e92d43f0 	push	{r4, r5, r6, r7, r8, r9, lr}
+   1dad0:	e1a06000 	mov	r6, r0
+   1dad4:	e1a07001 	mov	r7, r1
+   1dad8:	e59f8264 	ldr	r8, [pc, #612]	; 1dd44 <test1+0x14>
+   1dadc:	e5984000 	ldr	r4, [r8]
+   1dae0:	e1a08004 	mov	r8, r4
+   1dae4:	e59f925c 	ldr	r9, [pc, #604]	; 1dd48 <test1+0x18>
+   1dae8:	e5995000 	ldr	r5, [r9]
+   1daec:	e1a09005 	mov	r9, r5
+   1daf0:	e0844006 	add	r4, r4, r6
+   1daf4:	e2440020 	sub	r0, r4, #32
+   1daf8:	e0855007 	add	r5, r5, r7
+   1dafc:	e2451020 	sub	r1, r5, #32
+   1db00:	e59f2244 	ldr	r2, [pc, #580]	; 1dd4c <test1+0x1c>
+   1db04:	eb000062 	bl	1dc94 <drawPicture>
+   1db08:	e3e02000 	mvn	r2, #0
+   1db0c:	e1b00006 	movs	r0, r6
+   1db10:	40000296 	mulmi	r0, r6, r2
+   1db14:	e1b01007 	movs	r1, r7
+   1db18:	40010297 	mulmi	r1, r7, r2
+   1db1c:	e3500020 	cmp	r0, #32
+   1db20:	ca000004 	bgt	1db38 <teleport>
+   1db24:	e3510020 	cmp	r1, #32
+   1db28:	ca000002 	bgt	1db38 <teleport>
+   1db2c:	e3560000 	cmp	r6, #0
+   1db30:	ba00000f 	blt	1db74 <move_backward>
+   1db34:	ea000005 	b	1db50 <move_foreward>
+
+0001db38 <teleport>:
+   1db38:	e2480020 	sub	r0, r8, #32
+   1db3c:	e1a01008 	mov	r1, r8
+   1db40:	e2492020 	sub	r2, r9, #32
+   1db44:	e1a03009 	mov	r3, r9
+   1db48:	eb000021 	bl	1dbd4 <Redraw_Background_X>
+   1db4c:	ea00001a 	b	1dbbc <move_end>
+
+0001db50 <move_foreward>:
+   1db50:	e2440020 	sub	r0, r4, #32
+   1db54:	e1a01000 	mov	r1, r0
+   1db58:	e0400006 	sub	r0, r0, r6
+   1db5c:	e2492020 	sub	r2, r9, #32
+   1db60:	e1a03009 	mov	r3, r9
+   1db64:	eb00001a 	bl	1dbd4 <Redraw_Background_X>
+   1db68:	e3570000 	cmp	r7, #0
+   1db6c:	ca00000d 	bgt	1dba8 <move_down>
+   1db70:	ba000006 	blt	1db90 <move_up>
+
+0001db74 <move_backward>:
+   1db74:	e1a00004 	mov	r0, r4
+   1db78:	e0441006 	sub	r1, r4, r6
+   1db7c:	e2492020 	sub	r2, r9, #32
+   1db80:	e1a03009 	mov	r3, r9
+   1db84:	eb000012 	bl	1dbd4 <Redraw_Background_X>
+   1db88:	e3570000 	cmp	r7, #0
+   1db8c:	ca000005 	bgt	1dba8 <move_down>
+
+0001db90 <move_up>:
+   1db90:	e1a02005 	mov	r2, r5
+   1db94:	e0453007 	sub	r3, r5, r7
+   1db98:	e2480020 	sub	r0, r8, #32
+   1db9c:	e1a01008 	mov	r1, r8
+   1dba0:	eb00001f 	bl	1dc24 <Redraw_Background_Y>
+   1dba4:	ea000004 	b	1dbbc <move_end>
+
+0001dba8 <move_down>:
+   1dba8:	e2453020 	sub	r3, r5, #32
+   1dbac:	e0432007 	sub	r2, r3, r7
+   1dbb0:	e2480020 	sub	r0, r8, #32
+   1dbb4:	e1a01008 	mov	r1, r8
+   1dbb8:	eb000019 	bl	1dc24 <Redraw_Background_Y>
+
+0001dbbc <move_end>:
+   1dbbc:	e59f8180 	ldr	r8, [pc, #384]	; 1dd44 <test1+0x14>
+   1dbc0:	e5884000 	str	r4, [r8]
+   1dbc4:	e59f917c 	ldr	r9, [pc, #380]	; 1dd48 <test1+0x18>
+   1dbc8:	e5895000 	str	r5, [r9]
+   1dbcc:	e8bd43f0 	pop	{r4, r5, r6, r7, r8, r9, lr}
+   1dbd0:	e12fff1e 	bx	lr
+
+0001dbd4 <Redraw_Background_X>:
+   1dbd4:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+   1dbd8:	e1a04000 	mov	r4, r0
+   1dbdc:	e1a05001 	mov	r5, r1
+   1dbe0:	e1a06002 	mov	r6, r2
+   1dbe4:	e1a07003 	mov	r7, r3
+   1dbe8:	ea000009 	b	1dc14 <rb_x_loop_test_0>
+
+0001dbec <rb_x_loop_0>:
+   1dbec:	e1a08006 	mov	r8, r6
+   1dbf0:	ea000004 	b	1dc08 <rb_x_loop_test_1>
+
+0001dbf4 <rb_x_loop_1>:
+   1dbf4:	e1a00004 	mov	r0, r4
+   1dbf8:	e1a01008 	mov	r1, r8
+   1dbfc:	e3a02008 	mov	r2, #8
+   1dc00:	eb00001b 	bl	1dc74 <DrawPixel>
+   1dc04:	e2888001 	add	r8, r8, #1
+
+0001dc08 <rb_x_loop_test_1>:
+   1dc08:	e1580007 	cmp	r8, r7
+   1dc0c:	bafffff8 	blt	1dbf4 <rb_x_loop_1>
+   1dc10:	e2844001 	add	r4, r4, #1
+
+0001dc14 <rb_x_loop_test_0>:
+   1dc14:	e1540005 	cmp	r4, r5
+   1dc18:	bafffff3 	blt	1dbec <rb_x_loop_0>
+   1dc1c:	e8bd41f0 	pop	{r4, r5, r6, r7, r8, lr}
+   1dc20:	e12fff1e 	bx	lr
+
+0001dc24 <Redraw_Background_Y>:
+   1dc24:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+   1dc28:	e1a04000 	mov	r4, r0
+   1dc2c:	e1a05001 	mov	r5, r1
+   1dc30:	e1a06002 	mov	r6, r2
+   1dc34:	e1a07003 	mov	r7, r3
+   1dc38:	ea000009 	b	1dc64 <rb_y_loop_test_0>
+
+0001dc3c <rb_y_loop_0>:
+   1dc3c:	e1a08004 	mov	r8, r4
+   1dc40:	ea000004 	b	1dc58 <rb_y_loop_test_1>
+
+0001dc44 <rb_y_loop_1>:
+   1dc44:	e1a00008 	mov	r0, r8
+   1dc48:	e1a01006 	mov	r1, r6
+   1dc4c:	e3a02008 	mov	r2, #8
+   1dc50:	eb000007 	bl	1dc74 <DrawPixel>
+   1dc54:	e2888001 	add	r8, r8, #1
+
+0001dc58 <rb_y_loop_test_1>:
+   1dc58:	e1580005 	cmp	r8, r5
+   1dc5c:	bafffff8 	blt	1dc44 <rb_y_loop_1>
+   1dc60:	e2866001 	add	r6, r6, #1
+
+0001dc64 <rb_y_loop_test_0>:
+   1dc64:	e1560007 	cmp	r6, r7
+   1dc68:	bafffff3 	blt	1dc3c <rb_y_loop_0>
+   1dc6c:	e8bd41f0 	pop	{r4, r5, r6, r7, r8, lr}
+   1dc70:	e12fff1e 	bx	lr
+
+0001dc74 <DrawPixel>:
+   1dc74:	e52d4004 	push	{r4}		; (str r4, [sp, #-4]!)
+   1dc78:	e0804501 	add	r4, r0, r1, lsl #10
+   1dc7c:	e1a04084 	lsl	r4, r4, #1
+   1dc80:	e59f00c8 	ldr	r0, [pc, #200]	; 1dd50 <test1+0x20>
+   1dc84:	e5900000 	ldr	r0, [r0]
+   1dc88:	e18020b4 	strh	r2, [r0, r4]
+   1dc8c:	e49d4004 	pop	{r4}		; (ldr r4, [sp], #4)
+   1dc90:	e12fff1e 	bx	lr
+
+0001dc94 <drawPicture>:
+   1dc94:	e92d43f0 	push	{r4, r5, r6, r7, r8, r9, lr}
+   1dc98:	e1a04000 	mov	r4, r0
+   1dc9c:	e1a09000 	mov	r9, r0
+   1dca0:	e1a05001 	mov	r5, r1
+   1dca4:	e1a06002 	mov	r6, r2
+   1dca8:	e2847020 	add	r7, r4, #32
+   1dcac:	e2858020 	add	r8, r5, #32
+
+0001dcb0 <drawPictureLoop>:
+   1dcb0:	e1a00004 	mov	r0, r4
+   1dcb4:	e1a01005 	mov	r1, r5
+   1dcb8:	e0d620b2 	ldrh	r2, [r6], #2
+   1dcbc:	ebffffec 	bl	1dc74 <DrawPixel>
+   1dcc0:	e2844001 	add	r4, r4, #1
+   1dcc4:	e1540007 	cmp	r4, r7
+   1dcc8:	bafffff8 	blt	1dcb0 <drawPictureLoop>
+   1dccc:	e1a04009 	mov	r4, r9
+   1dcd0:	e2855001 	add	r5, r5, #1
+   1dcd4:	e1550008 	cmp	r5, r8
+   1dcd8:	bafffff4 	blt	1dcb0 <drawPictureLoop>
+   1dcdc:	e8bd43f0 	pop	{r4, r5, r6, r7, r8, r9, lr}
+   1dce0:	e1a0f00e 	mov	pc, lr
+
+0001dce4 <clearScreen>:
+   1dce4:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+   1dce8:	e3a04000 	mov	r4, #0
+   1dcec:	e3a05000 	mov	r5, #0
+   1dcf0:	e3a06008 	mov	r6, #8
+   1dcf4:	e59f7058 	ldr	r7, [pc, #88]	; 1dd54 <test1+0x24>
+   1dcf8:	e59f8058 	ldr	r8, [pc, #88]	; 1dd58 <test1+0x28>
+
+0001dcfc <Looping>:
+   1dcfc:	e1a00004 	mov	r0, r4
+   1dd00:	e1a01005 	mov	r1, r5
+   1dd04:	e1a02006 	mov	r2, r6
+   1dd08:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   1dd0c:	ebffffd8 	bl	1dc74 <DrawPixel>
+   1dd10:	e49de004 	pop	{lr}		; (ldr lr, [sp], #4)
+   1dd14:	e2844001 	add	r4, r4, #1
+   1dd18:	e1540007 	cmp	r4, r7
+   1dd1c:	dafffff6 	ble	1dcfc <Looping>
+   1dd20:	e3a04000 	mov	r4, #0
+   1dd24:	e2855001 	add	r5, r5, #1
+   1dd28:	e1550008 	cmp	r5, r8
+   1dd2c:	dafffff2 	ble	1dcfc <Looping>
+
+0001dd30 <test1>:
+   1dd30:	e8bd41f0 	pop	{r4, r5, r6, r7, r8, lr}
+   1dd34:	e1a0f00e 	mov	pc, lr
+   1dd38:	0000ffff 	.word	0x0000ffff
+   1dd3c:	0000908c 	.word	0x0000908c
+   1dd40:	00009088 	.word	0x00009088
+   1dd44:	00009080 	.word	0x00009080
+   1dd48:	00009084 	.word	0x00009084
+   1dd4c:	00009090 	.word	0x00009090
+   1dd50:	0001d7c0 	.word	0x0001d7c0
+   1dd54:	000003ff 	.word	0x000003ff
+   1dd58:	000002ff 	.word	0x000002ff
+
+0001dd5c <InitGPIOSNES>:
+   1dd5c:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   1dd60:	e3a00009 	mov	r0, #9
+   1dd64:	e3a01001 	mov	r1, #1
+   1dd68:	eb000006 	bl	1dd88 <Init_GPIO>
+   1dd6c:	e3a0000a 	mov	r0, #10
+   1dd70:	e3a01000 	mov	r1, #0
+   1dd74:	eb000003 	bl	1dd88 <Init_GPIO>
+   1dd78:	e3a0000b 	mov	r0, #11
+   1dd7c:	e3a01001 	mov	r1, #1
+   1dd80:	eb000000 	bl	1dd88 <Init_GPIO>
+   1dd84:	e49df004 	pop	{pc}		; (ldr pc, [sp], #4)
+
+0001dd88 <Init_GPIO>:
+   1dd88:	e92d0070 	push	{r4, r5, r6}
+   1dd8c:	e1a02000 	mov	r2, r0
+   1dd90:	e3a0600a 	mov	r6, #10
+   1dd94:	e732f612 	udiv	r2, r2, r6
+   1dd98:	e3a06004 	mov	r6, #4
+   1dd9c:	e0020296 	mul	r2, r6, r2
+
+0001dda0 <mod10>:
+   1dda0:	e3500009 	cmp	r0, #9
+   1dda4:	8240000a 	subhi	r0, r0, #10
+   1dda8:	8afffffc 	bhi	1dda0 <mod10>
+   1ddac:	e59f3114 	ldr	r3, [pc, #276]	; 1dec8 <Read_Data+0x28>
+   1ddb0:	e7935002 	ldr	r5, [r3, r2]
+   1ddb4:	e3a04007 	mov	r4, #7
+   1ddb8:	e3a06003 	mov	r6, #3
+   1ddbc:	e0000096 	mul	r0, r6, r0
+   1ddc0:	e1a04014 	lsl	r4, r4, r0
+   1ddc4:	e1c55004 	bic	r5, r5, r4
+   1ddc8:	e1a01011 	lsl	r1, r1, r0
+   1ddcc:	e1855001 	orr	r5, r5, r1
+   1ddd0:	e7835002 	str	r5, [r3, r2]
+   1ddd4:	e8bd0070 	pop	{r4, r5, r6}
+   1ddd8:	e1a0f00e 	mov	pc, lr
+
+0001dddc <ReadSNES>:
+   1dddc:	e92d4440 	push	{r6, sl, lr}
+   1dde0:	e3a01001 	mov	r1, #1
+   1dde4:	eb00001e 	bl	1de64 <Write_Clock>
+   1dde8:	e3a01001 	mov	r1, #1
+   1ddec:	eb000020 	bl	1de74 <Write_Latch>
+   1ddf0:	e3a0000c 	mov	r0, #12
+   1ddf4:	eb000022 	bl	1de84 <Wait>
+   1ddf8:	e3a01000 	mov	r1, #0
+   1ddfc:	eb00001c 	bl	1de74 <Write_Latch>
+   1de00:	e3a06000 	mov	r6, #0
+   1de04:	e3a0a000 	mov	sl, #0
+
+0001de08 <Read_SNES_Loop>:
+   1de08:	e3560010 	cmp	r6, #16
+   1de0c:	01a0000a 	moveq	r0, sl
+   1de10:	08bd8440 	popeq	{r6, sl, pc}
+   1de14:	e3a01001 	mov	r1, #1
+   1de18:	eb000011 	bl	1de64 <Write_Clock>
+   1de1c:	e3a00006 	mov	r0, #6
+   1de20:	eb000017 	bl	1de84 <Wait>
+   1de24:	e3a01000 	mov	r1, #0
+   1de28:	eb00000d 	bl	1de64 <Write_Clock>
+   1de2c:	e3a00006 	mov	r0, #6
+   1de30:	eb000013 	bl	1de84 <Wait>
+   1de34:	eb000019 	bl	1dea0 <Read_Data>
+   1de38:	e1a00610 	lsl	r0, r0, r6
+   1de3c:	e18aa000 	orr	sl, sl, r0
+   1de40:	e2866001 	add	r6, r6, #1
+   1de44:	eaffffef 	b	1de08 <Read_SNES_Loop>
+
+0001de48 <Write_GPIO>:
+   1de48:	e3510000 	cmp	r1, #0
+   1de4c:	059f2078 	ldreq	r2, [pc, #120]	; 1decc <Read_Data+0x2c>
+   1de50:	159f2078 	ldrne	r2, [pc, #120]	; 1ded0 <Read_Data+0x30>
+   1de54:	e3a03001 	mov	r3, #1
+   1de58:	e1a03013 	lsl	r3, r3, r0
+   1de5c:	e5823000 	str	r3, [r2]
+   1de60:	e1a0f00e 	mov	pc, lr
+
+0001de64 <Write_Clock>:
+   1de64:	e3a0000b 	mov	r0, #11
+   1de68:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   1de6c:	ebfffff5 	bl	1de48 <Write_GPIO>
+   1de70:	e49df004 	pop	{pc}		; (ldr pc, [sp], #4)
+
+0001de74 <Write_Latch>:
+   1de74:	e3a00009 	mov	r0, #9
+   1de78:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   1de7c:	ebfffff1 	bl	1de48 <Write_GPIO>
+   1de80:	e49df004 	pop	{pc}		; (ldr pc, [sp], #4)
+
+0001de84 <Wait>:
+   1de84:	e59f1048 	ldr	r1, [pc, #72]	; 1ded4 <Read_Data+0x34>
+   1de88:	e5912000 	ldr	r2, [r1]
+   1de8c:	e0822000 	add	r2, r2, r0
+
+0001de90 <wait_loop>:
+   1de90:	e5913000 	ldr	r3, [r1]
+   1de94:	e1530002 	cmp	r3, r2
+   1de98:	9afffffc 	bls	1de90 <wait_loop>
+   1de9c:	e1a0f00e 	mov	pc, lr
+
+0001dea0 <Read_Data>:
+   1dea0:	e3a0000a 	mov	r0, #10
+   1dea4:	e59f102c 	ldr	r1, [pc, #44]	; 1ded8 <Read_Data+0x38>
+   1dea8:	e5912000 	ldr	r2, [r1]
+   1deac:	e3a03001 	mov	r3, #1
+   1deb0:	e1a03013 	lsl	r3, r3, r0
+   1deb4:	e0022003 	and	r2, r2, r3
+   1deb8:	e3520000 	cmp	r2, #0
+   1debc:	03a00000 	moveq	r0, #0
+   1dec0:	13a00001 	movne	r0, #1
+   1dec4:	e1a0f00e 	mov	pc, lr
+   1dec8:	3f200000 	.word	0x3f200000
+   1decc:	3f200028 	.word	0x3f200028
+   1ded0:	3f20001c 	.word	0x3f20001c
+   1ded4:	3f003004 	.word	0x3f003004
+   1ded8:	3f200034 	.word	0x3f200034

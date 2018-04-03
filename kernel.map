@@ -1,0 +1,124 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/picture.o
+LOAD build/jtag.o
+LOAD build/framebuffer.o
+LOAD build/main.o
+LOAD build/snes.o
+
+.init           0x00008000        0x4
+ *(.init)
+ .init          0x00008000        0x4 build/main.o
+                0x00008000                _start
+
+.data           0x00009080    0x1486c
+ *(.data)
+ .data          0x00009080    0x146d8 build/picture.o
+                0x00009080                x_pos
+                0x00009084                y_pos
+                0x00009088                jump_cnt
+                0x0000908c                jump_flag
+                0x00009090                mario
+                0x00009890                pic
+ .data          0x0001d758        0x0 build/jtag.o
+ *fill*         0x0001d758        0x8 3f3f3f3f
+ .data          0x0001d760       0x70 build/framebuffer.o
+                0x0001d7c0                FrameBufferPointer
+ .data          0x0001d7d0        0x0 build/main.o
+ .data          0x0001d7d0      0x11c build/snes.o
+ *.c.o(*)
+
+.igot.plt       0x0001d8ec        0x0
+ .igot.plt      0x00000000        0x0 build/jtag.o
+
+.text           0x0001d8ec      0x5f0
+ *.c.o(.text)
+ *(.text)
+ .text          0x0001d8ec        0x0 build/picture.o
+ .text          0x0001d8ec       0x8c build/jtag.o
+                0x0001d8ec                EnableJTAG
+ .text          0x0001d978       0x80 build/framebuffer.o
+                0x0001d978                InitFrameBuffer
+ .text          0x0001d9f8      0x364 build/main.o
+ .text          0x0001dd5c      0x180 build/snes.o
+                0x0001dd5c                InitGPIOSNES
+                0x0001dddc                ReadSNES
+OUTPUT(build/output.elf elf32-littlearm)
+
+.glue_7         0x0001dedc        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x0001dedc        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x0001dedc        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x0001dedc        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x0001dedc        0x0
+ .iplt          0x00000000        0x0 build/jtag.o
+
+.rel.dyn        0x0001dedc        0x0
+ .rel.iplt      0x00000000        0x0 build/jtag.o
+
+.bss            0x0001dedc        0x0
+ .bss           0x0001dedc        0x0 build/picture.o
+ .bss           0x0001dedc        0x0 build/jtag.o
+ .bss           0x0001dedc        0x0 build/framebuffer.o
+ .bss           0x0001dedc        0x0 build/main.o
+ .bss           0x0001dedc        0x0 build/snes.o
+
+.ARM.attributes
+                0x00000000       0x29
+ .ARM.attributes
+                0x00000000       0x29 build/picture.o
+ .ARM.attributes
+                0x00000029       0x29 build/jtag.o
+ .ARM.attributes
+                0x00000052       0x29 build/framebuffer.o
+ .ARM.attributes
+                0x0000007b       0x29 build/main.o
+ .ARM.attributes
+                0x000000a4       0x29 build/snes.o
+
+.set            0x00000000        0x0
+ .set           0x00000000        0x0 build/snes.o
+
+.debug_line     0x00000000      0x2b3
+ .debug_line    0x00000000       0x61 build/jtag.o
+ .debug_line    0x00000061       0x67 build/framebuffer.o
+ .debug_line    0x000000c8      0x13d build/main.o
+ .debug_line    0x00000205       0xae build/snes.o
+
+.debug_info     0x00000000      0x1a7
+ .debug_info    0x00000000       0x69 build/jtag.o
+ .debug_info    0x00000069       0x70 build/framebuffer.o
+ .debug_info    0x000000d9       0x65 build/main.o
+ .debug_info    0x0000013e       0x69 build/snes.o
+
+.debug_abbrev   0x00000000       0x4e
+ .debug_abbrev  0x00000000       0x14 build/jtag.o
+ .debug_abbrev  0x00000014       0x14 build/framebuffer.o
+ .debug_abbrev  0x00000028       0x12 build/main.o
+ .debug_abbrev  0x0000003a       0x14 build/snes.o
+
+.debug_aranges  0x00000000       0x88
+ .debug_aranges
+                0x00000000       0x20 build/jtag.o
+ .debug_aranges
+                0x00000020       0x20 build/framebuffer.o
+ .debug_aranges
+                0x00000040       0x28 build/main.o
+ .debug_aranges
+                0x00000068       0x20 build/snes.o
+
+.debug_ranges   0x00000000       0x20
+ .debug_ranges  0x00000000       0x20 build/main.o
